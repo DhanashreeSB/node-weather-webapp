@@ -73,7 +73,7 @@ app.get('/weather', (req, res) => {
             }
             // console.log('Data ', forecastData);
             res.send({
-                forecast: `It's ${forecastData.temp_c} degrees out there. It's going to be ${forecastData.condition.text.toLowerCase()} today!`,
+                forecast: `Mostly ${forecastData.condition.text.toLowerCase()} throughout the day. It's ${forecastData.temp_c} degrees out there.`,
                 location: place,
                 address: req.query.address
             });
