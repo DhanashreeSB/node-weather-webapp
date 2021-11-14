@@ -6,14 +6,17 @@ const weatherUtil = require('./utils/weather');
 
 const app = express();
 
+//Heroku is going to store port number inside environment variable from which we can access it. If not present take 3000 -- for localhost
+const port = process.env.PORT || 3000;
+
 //Define paths for Express config
 const publicDirectoryPath = path.join(__dirname, "../public");
-const viewsPath = path.join(__dirname,"../templates/views");
-const partialsPath = path.join(__dirname,"../templates/partials");
+const viewsPath = path.join(__dirname, "../templates/views");
+const partialsPath = path.join(__dirname, "../templates/partials");
 
 //Setup handlebars engine and views location
 //To render dynamic content in website: Tell express which templating engine we are using. This single line below will setup handlebars for us.
-app.set('view engine','hbs');
+app.set('view engine', 'hbs');
 //If we don't set this-default folder express is going to look for templates is views folder.
 app.set('views', viewsPath);
 // set hbs to use partials placed inside templates/partials/. This is to write code which can be reused at multiple places.
@@ -23,24 +26,24 @@ hbs.registerPartials(partialsPath);
 app.use(express.static(publicDirectoryPath));
 
 //To serve up hbs templates we need to set up routes. In this case:
-app.get('',(req,res) =>{
+app.get('', (req, res) => {
     //render allows us to render one of our views/templates. Render tells express to go into the views folder to look for file named index and then it converts the content into that file in HTML format.
     //second parameter to render is going to be an object which you want that view to be able to access.
-    res.render('index',{
+    res.render('index', {
         title: 'Weather app',
         name: "Dhanashree"
     });
 })
 
-app.get('/about',(req,res) =>{
-    res.render('about',{
+app.get('/about', (req, res) => {
+    res.render('about', {
         title: 'About me',
         name: "Dhanashree"
     });
 })
 
-app.get('/help',(req,res) =>{
-    res.render('help',{
+app.get('/help', (req, res) => {
+    res.render('help', {
         title: 'Help',
         name: "Dhanashree",
         help: "Some helpful text"
@@ -78,22 +81,22 @@ app.get('/weather', (req, res) => {
     })
 })
 
-app.get('/help/*',(req,res) =>{
-    res.render('error',{
+app.get('/help/*', (req, res) => {
+    res.render('error', {
         title: 'Error',
-        message:'Help article not found'
+        message: 'Help article not found'
     });
 })
 
-app.get('*',(req,res) =>{
-    res.render('error',{
+app.get('*', (req, res) => {
+    res.render('error', {
         title: 'Error',
-        message:'Page not found'
+        message: 'Page not found'
     });
 })
 
 
 
-app.listen(3000, () => {
-    console.log("Listening on port 3000");
+app.listen(port, () => {
+    console.log(`Listening on port ${port}`);
 })
